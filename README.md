@@ -8,5 +8,6 @@ Work in progress
 - [x] Basic ports for Sound
 - [ ] Basic Canvas included
 - [ ] Basic WebGL included
-- [ ] support for Pixel graphics
-- [ ] Optional Image Buffers
+- [ ] support for pixel graphics
+- [ ] Optional image buffers
+- [ ] Optional sound buffers
