@@ -2,10 +2,10 @@
 
 Work in progress
 
-Roadmap
+## Roadmap
 
 - [x] Mobile friendly
-- [ ] Basic ports for Sound
+- [x] Basic ports for Sound
 - [ ] Basic Canvas included
 - [ ] Basic WebGL included
 - [ ] support for Pixel graphics
