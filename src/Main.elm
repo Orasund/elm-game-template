@@ -3,10 +3,14 @@ module Main exposing (..)
 import Browser
 import Config
 import Game exposing (Game)
+import Gen.Sound as Sound exposing (Sound(..))
 import Html exposing (Html)
 import Html.Attributes
+import Json.Decode exposing (Value)
 import Layout
 import Overlay exposing (Overlay(..))
+import Port
+import PortDefinition exposing (FromElm(..), ToElm(..))
 import Random exposing (Generator, Seed)
 import View
 import View.Overlay
@@ -22,6 +26,8 @@ type alias Model =
 type Msg
     = NewGame
     | SetOverlay (Maybe Overlay)
+    | SoundRequested
+    | Received (Result Json.Decode.Error ToElm)
     | GotSeed Seed
 
 
@@ -40,7 +46,7 @@ init () =
       , seed = Random.initialSeed 42
       , overlay = Just GameMenu
       }
-    , Cmd.none
+    , Sound.asList |> RegisterSounds |> Port.fromElm
     )
 
 
@@ -73,6 +79,24 @@ update msg model =
         GotSeed seed ->
             model |> gotSeed seed |> withNoCmd
 
+        SoundRequested ->
+            ( model
+            , PlaySound { sound = ClickButton, looping = False }
+                |> Port.fromElm
+            )
+
+        Received result ->
+            case result of
+                Err error ->
+                    let
+                        _ =
+                            Debug.log "received invalid json" error
+                    in
+                    model |> withNoCmd
+
+                Ok (SoundEnded sound) ->
+                    model |> withNoCmd
+
         SetOverlay maybeOverlay ->
             model |> setOverlay maybeOverlay |> withNoCmd
 
@@ -99,6 +123,10 @@ view model =
     { title = Config.title
     , body =
         [ View.viewportMeta
+        , Layout.textButton []
+            { label = "Play Sound"
+            , onPress = SoundRequested |> Just
+            }
 
         --, View.stylesheet
         , model.overlay
@@ -117,7 +145,7 @@ view model =
 
 subscriptions : Model -> Sub Msg
 subscriptions _ =
-    Sub.none
+    Port.toElm |> Sub.map Received
 
 
 main : Program () Model Msg

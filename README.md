@@ -5,6 +5,7 @@ Work in progress
 ## Table of content
 
 * [**Scripts**](docs/Scripts.md)
+* [**Sound**](docs/Sound.md)
 
 
 ## Roadmap

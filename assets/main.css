@@ -1,11 +1,11 @@
 @font-face {
     font-family: "NotoEmoji";
-    src: url("assets/fonts/NotoEmoji-Regular.ttf");
+    src: url("fonts/NotoEmoji-Regular.ttf");
 }
 
 @font-face {
     font-family: "NotoColorEmoji";
-    src: url("assets/fonts/NotoColorEmoji-Regular.ttf");
+    src: url("fonts/NotoColorEmoji-Regular.ttf");
 }
 
 :root {
