@@ -7,8 +7,10 @@
     "dev": "elm-live src/Main.elm -- --output=elm.js"
   },
   "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "elm-live": "^4.0.2"
+  "license": "BSD-3-Clause",
+  "devDependencies": {
+    "elm": "^0.19.1-5",
+    "elm-live": "^4.0.2",
+    "zip-lib": "^0.7.3"
   }
 }

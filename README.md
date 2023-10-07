@@ -2,6 +2,11 @@
 
 Work in progress
 
+## Table of content
+
+* [**Scripts**](docs/Scripts.md)
+
+
 ## Roadmap
 
 - [x] Mobile friendly
