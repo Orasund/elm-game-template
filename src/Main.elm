@@ -3,7 +3,7 @@ module Main exposing (..)
 import Browser
 import Config
 import Game exposing (Game)
-import Gen.Sound as Sound exposing (Sound(..))
+import Gen.Sound exposing (Sound(..))
 import Html exposing (Html)
 import Html.Attributes
 import Json.Decode exposing (Value)
@@ -46,7 +46,7 @@ init () =
       , seed = Random.initialSeed 42
       , overlay = Just GameMenu
       }
-    , Sound.asList |> RegisterSounds |> Port.fromElm
+    , Gen.Sound.asList |> RegisterSounds |> Port.fromElm
     )
 
 
@@ -87,14 +87,14 @@ update msg model =
 
         Received result ->
             case result of
+                Ok (SoundEnded sound) ->
+                    model |> withNoCmd
+
                 Err error ->
                     let
                         _ =
                             Debug.log "received invalid json" error
                     in
-                    model |> withNoCmd
-
-                Ok (SoundEnded sound) ->
                     model |> withNoCmd
 
         SetOverlay maybeOverlay ->

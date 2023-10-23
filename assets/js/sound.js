@@ -31,8 +31,9 @@ export function registerSound(path) {
  * Play an aduio file
  * @param {string} path 
  * @param {bool} playEndlessly 
+ * @param {() => void} onended
  */
-export function playSound(path, playEndlessly) {
+export function playSound(path, playEndlessly, onended) {
     const audio = sound.pool.get(path)
     if (audio === undefined)
         console.log(path + " not found. Please register it before playing.")
@@ -41,9 +42,8 @@ export function playSound(path, playEndlessly) {
         ? () => {
             audio.load;
             audio.play();
-
         }
-        : () => { }
+        : onended()
 
     if (sound.ctx.state === "suspended")
         sound.ctx.resume();
@@ -52,4 +52,12 @@ export function playSound(path, playEndlessly) {
         audio.play();
     }
 
+}
+
+export function stopSound(path) {
+    const audio = sound.pool.get(path)
+    if (audio === undefined)
+        console.log(path + " not found. Please register it before playing.")
+
+    audio.load();
 }

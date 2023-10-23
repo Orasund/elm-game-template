@@ -21,9 +21,9 @@ export interface ElmApp {
   };
 }
 
-export type FromElm = { data : string[]; tag : "registerSounds" } | { data : { looping : boolean; sound : string }; tag : "playSound" };
+export type FromElm = { data : string[]; tag : "registerSounds" } | { data : string; tag : "stopSound" } | { data : { looping : boolean; sound : string }; tag : "playSound" };
 
-export type ToElm = never;
+export type ToElm = { sound : string; type : "soundEnded" };
 
 export type Flags = null;
 
