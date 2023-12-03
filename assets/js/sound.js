@@ -47,11 +47,9 @@ export function playSound(path, playEndlessly, onended) {
 
     if (sound.ctx.state === "suspended")
         sound.ctx.resume();
-    else {
-        audio.load();
-        audio.play();
-    }
 
+    audio.load();
+    audio.play();
 }
 
 export function stopSound(path) {

@@ -4,6 +4,7 @@ Work in progress
 
 ## Table of content
 
+* [**Starting from an Existing Codebase**](docs/MigrateExistingCode.md)
 * [**Node Scripts**](docs/Scripts.md)
 * [**Sound**](docs/Sound.md)
 
