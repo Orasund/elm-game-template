@@ -1,4 +1,4 @@
-module Pixel exposing (..)
+module Image exposing (..)
 
 {-| This module is a stand-alone module to view pixelimages
 -}
@@ -12,7 +12,7 @@ pixelated =
     Html.Attributes.style "image-rendering" "pixelated"
 
 
-spriteImage :
+sprite :
     List (Attribute msg)
     ->
         { url : String
@@ -23,7 +23,7 @@ spriteImage :
         , sheetRows : Int
         }
     -> Html msg
-spriteImage attrs args =
+sprite attrs args =
     let
         ( x, y ) =
             args.pos
@@ -52,11 +52,11 @@ spriteImage attrs args =
         []
 
 
-image :
+toHtml :
     List (Attribute msg)
     -> { url : String, width : Float, height : Float }
     -> Html msg
-image attrs args =
+toHtml attrs args =
     Html.img
         ([ pixelated
          , Html.Attributes.src args.url
