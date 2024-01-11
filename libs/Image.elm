@@ -95,14 +95,16 @@ bitmap attrs args list =
             [ list
                 |> List.map
                     (\( ( x, y ), color ) ->
-                        [ String.fromFloat (toFloat x * args.pixelSize)
-                        , String.fromFloat (toFloat y * args.pixelSize)
+                        [ String.fromFloat (toFloat x * args.pixelSize) ++ "px"
+                        , String.fromFloat (toFloat y * args.pixelSize) ++ "px"
                         , color
                         ]
                             |> String.join " "
                     )
                 |> String.join ","
                 |> Html.Attributes.style "box-shadow"
+            , Html.Attributes.style "width" (String.fromFloat args.pixelSize ++ "px")
+            , Html.Attributes.style "height" (String.fromFloat args.pixelSize ++ "px")
             ]
             []
         ]
