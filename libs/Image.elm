@@ -71,8 +71,8 @@ toHtml attrs args =
 bitmap :
     List (Attribute msg)
     ->
-        { width : Int
-        , height : Int
+        { columns : Int
+        , rows : Int
         , pixelSize : Float
         }
     -> List ( ( Int, Int ), String )
@@ -80,10 +80,22 @@ bitmap :
 bitmap attrs args list =
     let
         width =
-            String.fromFloat (toFloat args.width * args.pixelSize) ++ "px"
+            String.fromFloat (toFloat args.columns * args.pixelSize) ++ "px"
 
         height =
-            String.fromFloat (toFloat args.height * args.pixelSize) ++ "px"
+            String.fromFloat (toFloat args.rows * args.pixelSize) ++ "px"
+
+        zero =
+            list
+                |> List.filterMap
+                    (\( pos, color ) ->
+                        if pos == ( 0, 0 ) then
+                            Just color
+
+                        else
+                            Nothing
+                    )
+                |> List.head
     in
     Html.div
         ([ Html.Attributes.style "width" width
@@ -105,6 +117,8 @@ bitmap attrs args list =
                 |> Html.Attributes.style "box-shadow"
             , Html.Attributes.style "width" (String.fromFloat args.pixelSize ++ "px")
             , Html.Attributes.style "height" (String.fromFloat args.pixelSize ++ "px")
+            , Html.Attributes.style "background"
+                (zero |> Maybe.withDefault "transparent")
             ]
             []
         ]
