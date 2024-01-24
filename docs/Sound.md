@@ -27,7 +27,7 @@ You can find free sounds at [kenney.nl](https://kenney.nl/assets/category:Audio)
 
 To add a new Sound to the system, you have to
 
-1. Place the file inside `asserts\sounds`, and
+1. Place the file inside `assets/sounds`, and
 2. Run `npm run generateSound`(See [docs](/docs/Scripts.md#generatesoundelmjs) for more info). This will generate the file `generated/Gen/Sound.elm` containing a representation of your Sounds.
 
 ## Play Sound
