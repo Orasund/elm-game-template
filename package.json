@@ -8,17 +8,22 @@
     "generateSound": "node scripts/generateSoundElm.js",
     "generatePorts": "elm-ts-interop --output elm.d.ts --definition-dir ports --definition-module PortDefinition",
     "build": "elm make src/Main.elm --output=assets/js/elm.js && node scripts/createZip.js",
-    "dev": "elm-live src/Main.elm -- --output=assets/js/elm.js",
+    "dev": "cp -R ./assets ./dist/assets && parcel index.html",
     "prune": "elm-review"
   },
   "author": "",
   "license": "BSD-3-Clause",
   "devDependencies": {
+    "@parcel/transformer-elm": "^2.11.0",
     "elm": "^0.19.1-5",
     "elm-live": "^4.0.2",
+    "elm-review": "^2.10.3",
     "elm-ts-interop": "^0.0.8",
-    "zip-lib": "^0.7.3",
-    "elm-review": "^2.10.3"
+    "parcel": "^2.11.0",
+    "punycode": "^1.4.1",
+    "zip-lib": "^0.7.3"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@pixi/sound": "^5.2.2"
+  }
 }
