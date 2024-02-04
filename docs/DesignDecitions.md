@@ -18,6 +18,6 @@ However this does with two major downsides:
 
 Using parcel was initically quite promising, as it comes with TS out of the box and supports Elm.
 
-However for it actually introduce a bit of overhead (copying the assets folder into dist, slower build time during hot-reloading).
+However it actually introduced a bit of overhead (copying the assets folder into dist, slower build time during hot-reloading).
 
-The finishing blow was that the resulting game was not supported by itch.io (the path to the index.js file was `/index.js` while it should have been `index.js`). I could have added more time into finding a solution. However I decided against it, as I was already thinking of finding a better building tool.
+The finishing blow was that the resulting game could not run on itch.io (the path to the index.js file was `/index.js` while it should have been `index.js`). I could have spent more time finding a solution. However I decided against it, as I was already thinking of finding a better building tool.

@@ -1,4 +1,4 @@
-module Image exposing (..)
+module Html.Image exposing (..)
 
 {-| This module is a stand-alone module to view pixelimages
 -}
