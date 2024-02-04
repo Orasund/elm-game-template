@@ -1,4 +1,4 @@
-import { IMediaInstance, sound } from '@pixi/sound';
+
 
 /**
  * Register all provided sounds 
@@ -6,7 +6,7 @@ import { IMediaInstance, sound } from '@pixi/sound';
  */
 export function registerAllSounds(paths) {
     paths.forEach(path => {
-        sound.add(path,
+        PIXI.sound.add(path,
             {
                 url: "assets/sounds/" + path,
                 preload: true,
@@ -28,7 +28,7 @@ export function registerAllSounds(paths) {
  * @param {() => void} onended
  */
 export function playSound(path, playEndlessly, onended) {
-    let s = sound.play(path)
+    let s = PIXI.sound.play(path)
     if (isIMediaInstance(s)) {
         s.loop = playEndlessly;
         s.on("end", onended);
@@ -36,10 +36,10 @@ export function playSound(path, playEndlessly, onended) {
     else console.log(path + " is not yet loaded")
 }
 
-function isIMediaInstance(object: any): object is IMediaInstance {
+function isIMediaInstance(object) {
     return 'id' in object;
 }
 
 export function stopSound(path) {
-    sound.stop(path)
+    PIXI.sound.stop(path)
 }

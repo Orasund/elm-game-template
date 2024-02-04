@@ -5298,7 +5298,7 @@ var $elm$core$Task$perform = F2(
 	});
 var $elm$browser$Browser$document = _Browser_document;
 var $author$project$Overlay$GameMenu = {$: 'GameMenu'};
-var $author$project$InteropDefinitions$RegisterSounds = function (a) {
+var $author$project$PortDefinition$RegisterSounds = function (a) {
 	return {$: 'RegisterSounds', a: a};
 };
 var $author$project$Gen$Sound$ClickButton = {$: 'ClickButton'};
@@ -5336,7 +5336,7 @@ var $elm$json$Json$Encode$null = _Json_encodeNull;
 var $dillonkearns$elm_ts_json$TsJson$Decode$null = function (value_) {
 	return A2($dillonkearns$elm_ts_json$TsJson$Decode$literal, value_, $elm$json$Json$Encode$null);
 };
-var $author$project$InteropDefinitions$flags = $dillonkearns$elm_ts_json$TsJson$Decode$null(
+var $author$project$PortDefinition$flags = $dillonkearns$elm_ts_json$TsJson$Decode$null(
 	{});
 var $dillonkearns$elm_ts_json$Internal$TsJsonType$Boolean = {$: 'Boolean'};
 var $dillonkearns$elm_ts_json$TsJson$Internal$Encode$Encoder = F2(
@@ -5591,45 +5591,55 @@ var $dillonkearns$elm_ts_json$TsJson$Encode$variantTagged = F3(
 				]),
 			builder);
 	});
-var $author$project$InteropDefinitions$fromElm = $dillonkearns$elm_ts_json$TsJson$Encode$buildUnion(
-	A3(
-		$dillonkearns$elm_ts_json$TsJson$Encode$variantTagged,
-		'registerSounds',
-		$dillonkearns$elm_ts_json$TsJson$Encode$list(
-			A2($dillonkearns$elm_ts_json$TsJson$Encode$map, $author$project$Gen$Sound$toString, $dillonkearns$elm_ts_json$TsJson$Encode$string)),
+var $author$project$PortDefinition$fromElm = function () {
+	var soundEncoder = A2($dillonkearns$elm_ts_json$TsJson$Encode$map, $author$project$Gen$Sound$toString, $dillonkearns$elm_ts_json$TsJson$Encode$string);
+	return $dillonkearns$elm_ts_json$TsJson$Encode$buildUnion(
 		A3(
 			$dillonkearns$elm_ts_json$TsJson$Encode$variantTagged,
-			'playSound',
-			$dillonkearns$elm_ts_json$TsJson$Encode$object(
-				_List_fromArray(
-					[
-						A3(
-						$dillonkearns$elm_ts_json$TsJson$Encode$required,
-						'sound',
-						function (obj) {
-							return $author$project$Gen$Sound$toString(obj.sound);
-						},
-						$dillonkearns$elm_ts_json$TsJson$Encode$string),
-						A3(
-						$dillonkearns$elm_ts_json$TsJson$Encode$required,
-						'looping',
-						function ($) {
-							return $.looping;
-						},
-						$dillonkearns$elm_ts_json$TsJson$Encode$bool)
-					])),
-			$dillonkearns$elm_ts_json$TsJson$Encode$union(
-				F3(
-					function (playSound, registerSounds, value) {
-						if (value.$ === 'RegisterSounds') {
-							var list = value.a;
-							return registerSounds(list);
-						} else {
-							var args = value.a;
-							return playSound(args);
-						}
-					})))));
-var $author$project$InteropDefinitions$SoundEnded = function (a) {
+			'registerSounds',
+			$dillonkearns$elm_ts_json$TsJson$Encode$list(soundEncoder),
+			A3(
+				$dillonkearns$elm_ts_json$TsJson$Encode$variantTagged,
+				'stopSound',
+				soundEncoder,
+				A3(
+					$dillonkearns$elm_ts_json$TsJson$Encode$variantTagged,
+					'playSound',
+					$dillonkearns$elm_ts_json$TsJson$Encode$object(
+						_List_fromArray(
+							[
+								A3(
+								$dillonkearns$elm_ts_json$TsJson$Encode$required,
+								'sound',
+								function (obj) {
+									return $author$project$Gen$Sound$toString(obj.sound);
+								},
+								$dillonkearns$elm_ts_json$TsJson$Encode$string),
+								A3(
+								$dillonkearns$elm_ts_json$TsJson$Encode$required,
+								'looping',
+								function ($) {
+									return $.looping;
+								},
+								$dillonkearns$elm_ts_json$TsJson$Encode$bool)
+							])),
+					$dillonkearns$elm_ts_json$TsJson$Encode$union(
+						F4(
+							function (playSound, stopSound, registerSounds, value) {
+								switch (value.$) {
+									case 'RegisterSounds':
+										var list = value.a;
+										return registerSounds(list);
+									case 'PlaySound':
+										var args = value.a;
+										return playSound(args);
+									default:
+										var args = value.a;
+										return stopSound(args);
+								}
+							}))))));
+}();
+var $author$project$PortDefinition$SoundEnded = function (a) {
 	return {$: 'SoundEnded', a: a};
 };
 var $dillonkearns$elm_ts_json$Internal$TsJsonType$ArrayIndex = F2(
@@ -6639,6 +6649,18 @@ var $dillonkearns$elm_ts_json$Internal$TypeReducer$simplifyIntersection = functi
 	}();
 	return thing;
 };
+var $dillonkearns$elm_ts_json$TsJson$Decode$map2 = F3(
+	function (mapFn, _v0, _v1) {
+		var innerDecoder1 = _v0.a;
+		var innerType1 = _v0.b;
+		var innerDecoder2 = _v1.a;
+		var innerType2 = _v1.b;
+		return A2(
+			$dillonkearns$elm_ts_json$TsJson$Internal$Decode$Decoder,
+			A3($elm$json$Json$Decode$map2, mapFn, innerDecoder1, innerDecoder2),
+			A2($dillonkearns$elm_ts_json$Internal$TypeReducer$intersect, innerType1, innerType2));
+	});
+var $dillonkearns$elm_ts_json$TsJson$Decode$andMap = $dillonkearns$elm_ts_json$TsJson$Decode$map2($elm$core$Basics$apR);
 var $dillonkearns$elm_ts_json$TsJson$Decode$andThen = F2(
 	function (_v0, _v1) {
 		var _function = _v0.a;
@@ -6720,6 +6742,19 @@ var $dillonkearns$elm_ts_json$TsJson$Decode$fail = function (message) {
 		$elm$json$Json$Decode$fail(message),
 		$dillonkearns$elm_ts_json$Internal$TsJsonType$Unknown);
 };
+var $dillonkearns$elm_ts_json$TsJson$Decode$field = F2(
+	function (fieldName, _v0) {
+		var innerDecoder = _v0.a;
+		var innerType = _v0.b;
+		return A2(
+			$dillonkearns$elm_ts_json$TsJson$Internal$Decode$Decoder,
+			A2($elm$json$Json$Decode$field, fieldName, innerDecoder),
+			$dillonkearns$elm_ts_json$Internal$TsJsonType$TypeObject(
+				_List_fromArray(
+					[
+						_Utils_Tuple3($dillonkearns$elm_ts_json$Internal$TsJsonType$Required, fieldName, innerType)
+					])));
+	});
 var $author$project$Gen$Sound$fromString = function (string) {
 	if (string === 'ClickButton.mp3') {
 		return $elm$core$Maybe$Just($author$project$Gen$Sound$ClickButton);
@@ -6734,7 +6769,7 @@ var $dillonkearns$elm_ts_json$TsJson$Decode$succeed = function (value_) {
 		$elm$json$Json$Decode$succeed(value_),
 		$dillonkearns$elm_ts_json$Internal$TsJsonType$Unknown);
 };
-var $author$project$InteropDefinitions$toElm = A2(
+var $author$project$PortDefinition$toElm = A2(
 	$dillonkearns$elm_ts_json$TsJson$Decode$discriminatedUnion,
 	'type',
 	_List_fromArray(
@@ -6742,27 +6777,30 @@ var $author$project$InteropDefinitions$toElm = A2(
 			_Utils_Tuple2(
 			'soundEnded',
 			A2(
-				$dillonkearns$elm_ts_json$TsJson$Decode$andThen,
-				$dillonkearns$elm_ts_json$TsJson$Decode$andThenInit(
-					function (string) {
-						return A2(
-							$elm$core$Maybe$withDefault,
-							$dillonkearns$elm_ts_json$TsJson$Decode$fail('Unkown sound ended: ' + string),
-							A2(
-								$elm$core$Maybe$map,
-								function (sound) {
-									return $dillonkearns$elm_ts_json$TsJson$Decode$succeed(
-										$author$project$InteropDefinitions$SoundEnded(sound));
-								},
-								$author$project$Gen$Sound$fromString(string)));
-					}),
-				$dillonkearns$elm_ts_json$TsJson$Decode$string))
+				$dillonkearns$elm_ts_json$TsJson$Decode$andMap,
+				A2(
+					$dillonkearns$elm_ts_json$TsJson$Decode$field,
+					'sound',
+					A2(
+						$dillonkearns$elm_ts_json$TsJson$Decode$andThen,
+						$dillonkearns$elm_ts_json$TsJson$Decode$andThenInit(
+							function (string) {
+								return A2(
+									$elm$core$Maybe$withDefault,
+									$dillonkearns$elm_ts_json$TsJson$Decode$fail('Unkown sound ended: ' + string),
+									A2(
+										$elm$core$Maybe$map,
+										$dillonkearns$elm_ts_json$TsJson$Decode$succeed,
+										$author$project$Gen$Sound$fromString(string)));
+							}),
+						$dillonkearns$elm_ts_json$TsJson$Decode$string)),
+				$dillonkearns$elm_ts_json$TsJson$Decode$succeed($author$project$PortDefinition$SoundEnded)))
 		]));
-var $author$project$InteropDefinitions$interop = {flags: $author$project$InteropDefinitions$flags, fromElm: $author$project$InteropDefinitions$fromElm, toElm: $author$project$InteropDefinitions$toElm};
-var $author$project$InteropPorts$interopFromElm = _Platform_outgoingPort('interopFromElm', $elm$core$Basics$identity);
-var $author$project$InteropPorts$fromElm = function (value) {
-	return $author$project$InteropPorts$interopFromElm(
-		A3($elm$core$Basics$apR, $author$project$InteropDefinitions$interop.fromElm, $dillonkearns$elm_ts_json$TsJson$Encode$encoder, value));
+var $author$project$PortDefinition$interop = {flags: $author$project$PortDefinition$flags, fromElm: $author$project$PortDefinition$fromElm, toElm: $author$project$PortDefinition$toElm};
+var $author$project$Port$interopFromElm = _Platform_outgoingPort('interopFromElm', $elm$core$Basics$identity);
+var $author$project$Port$fromElm = function (value) {
+	return $author$project$Port$interopFromElm(
+		A3($elm$core$Basics$apR, $author$project$PortDefinition$interop.fromElm, $dillonkearns$elm_ts_json$TsJson$Encode$encoder, value));
 };
 var $elm$random$Random$Seed = F2(
 	function (a, b) {
@@ -6791,22 +6829,22 @@ var $author$project$Main$init = function (_v0) {
 			overlay: $elm$core$Maybe$Just($author$project$Overlay$GameMenu),
 			seed: $elm$random$Random$initialSeed(42)
 		},
-		$author$project$InteropPorts$fromElm(
-			$author$project$InteropDefinitions$RegisterSounds($author$project$Gen$Sound$asList)));
+		$author$project$Port$fromElm(
+			$author$project$PortDefinition$RegisterSounds($author$project$Gen$Sound$asList)));
 };
 var $author$project$Main$Received = function (a) {
 	return {$: 'Received', a: a};
 };
 var $elm$core$Platform$Sub$map = _Platform_map;
 var $elm$json$Json$Decode$decodeValue = _Json_run;
-var $author$project$InteropPorts$interopToElm = _Platform_incomingPort('interopToElm', $elm$json$Json$Decode$value);
-var $author$project$InteropPorts$toElm = $author$project$InteropPorts$interopToElm(
+var $author$project$Port$interopToElm = _Platform_incomingPort('interopToElm', $elm$json$Json$Decode$value);
+var $author$project$Port$toElm = $author$project$Port$interopToElm(
 	$elm$json$Json$Decode$decodeValue(
-		$dillonkearns$elm_ts_json$TsJson$Decode$decoder($author$project$InteropDefinitions$interop.toElm)));
+		$dillonkearns$elm_ts_json$TsJson$Decode$decoder($author$project$PortDefinition$interop.toElm)));
 var $author$project$Main$subscriptions = function (_v0) {
-	return A2($elm$core$Platform$Sub$map, $author$project$Main$Received, $author$project$InteropPorts$toElm);
+	return A2($elm$core$Platform$Sub$map, $author$project$Main$Received, $author$project$Port$toElm);
 };
-var $author$project$InteropDefinitions$PlaySound = function (a) {
+var $author$project$PortDefinition$PlaySound = function (a) {
 	return {$: 'PlaySound', a: a};
 };
 var $author$project$Main$gotSeed = F2(
@@ -6848,17 +6886,17 @@ var $author$project$Main$update = F2(
 			case 'SoundRequested':
 				return _Utils_Tuple2(
 					model,
-					$author$project$InteropPorts$fromElm(
-						$author$project$InteropDefinitions$PlaySound(
+					$author$project$Port$fromElm(
+						$author$project$PortDefinition$PlaySound(
 							{looping: false, sound: $author$project$Gen$Sound$ClickButton})));
 			case 'Received':
 				var result = msg.a;
-				if (result.$ === 'Err') {
-					var error = result.a;
-					var _v2 = A2($elm$core$Debug$log, 'received invalid json', error);
+				if (result.$ === 'Ok') {
+					var sound = result.a.a;
 					return withNoCmd(model);
 				} else {
-					var sound = result.a.a;
+					var error = result.a;
+					var _v2 = A2($elm$core$Debug$log, 'received invalid json', error);
 					return withNoCmd(model);
 				}
 			default:
@@ -7051,18 +7089,24 @@ var $elm$virtual_dom$VirtualDom$node = function (tag) {
 		_VirtualDom_noScript(tag));
 };
 var $elm$html$Html$node = $elm$virtual_dom$VirtualDom$node;
-var $author$project$View$viewportMeta = function () {
-	var width = $elm$core$String$fromFloat($author$project$Config$screenMinWidth);
-	return A3(
-		$elm$html$Html$node,
-		'meta',
-		_List_fromArray(
-			[
-				$elm$html$Html$Attributes$name('viewport'),
-				A2($elm$html$Html$Attributes$attribute, 'content', 'user-scalable=no,width=' + width)
-			]),
-		_List_Nil);
-}();
+var $author$project$Html$Viewport$fixedWidth = F2(
+	function (attrs, width) {
+		return A3(
+			$elm$html$Html$node,
+			'meta',
+			_Utils_ap(
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$name('viewport'),
+						A2(
+						$elm$html$Html$Attributes$attribute,
+						'content',
+						'user-scalable=no,width=' + $elm$core$String$fromFloat(width))
+					]),
+				attrs),
+			_List_Nil);
+	});
+var $author$project$View$viewportMeta = A2($author$project$Html$Viewport$fixedWidth, _List_Nil, $author$project$Config$screenMinWidth);
 var $author$project$Main$view = function (model) {
 	var content = $elm$html$Html$text('');
 	return {

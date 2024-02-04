@@ -8,7 +8,7 @@
     "generateSound": "node scripts/generateSoundElm.js",
     "generatePorts": "elm-ts-interop --output elm.d.ts --definition-dir ports --definition-module PortDefinition",
     "build": "elm make src/Main.elm --output=assets/js/elm.js && node scripts/createZip.js",
-    "dev": "cp -R ./assets ./dist/assets && parcel index.html",
+    "dev": "elm-live src/Main.elm -- --output=assets/js/elm.js",
     "prune": "elm-review"
   },
   "author": "",

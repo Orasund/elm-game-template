@@ -1,7 +1,7 @@
 /// <reference path="../../elm.d.ts" />
 
-import { registerAllSounds, playSound } from "./sound";
-import { Elm } from "../../src/Main.elm";
+
+import { registerAllSounds, playSound, stopSound } from "./sound.js";
 
 var app = Elm.Main.init({ node: document.querySelector('main') })
 // you can use ports and stuff here
