@@ -21,7 +21,7 @@ export interface ElmApp {
   };
 }
 
-export type FromElm = { data : string[]; tag : "registerSounds" } | { data : string; tag : "stopSound" } | { data : { looping : boolean; sound : string }; tag : "playSound" };
+export type FromElm = { data : { data : { height : number | null; id : string; width : number | null }[]; tag : "addToStage" } | { data : [ string, string ][]; tag : "loadImage" } | { data : null; tag : "render" } | { data : null; tag : "stop" } | { data : null; tag : "start" } | { data : null; tag : "resize" } | { data : string; tag : "init" }; tag : "toPIXI" } | { data : string[]; tag : "registerSounds" } | { data : string; tag : "stopSound" } | { data : { looping : boolean; sound : string }; tag : "playSound" };
 
 export type ToElm = { sound : string; type : "soundEnded" };
 

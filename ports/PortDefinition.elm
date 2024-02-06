@@ -1,6 +1,7 @@
-module PortDefinition exposing (Flags, FromElm(..), ToElm(..), interop)
+module PortDefinition exposing (Flags, FromElm(..), ToElm, interop)
 
 import Gen.Sound exposing (Sound)
+import PIXI exposing (PIXIStatement(..))
 import TsJson.Decode as TsDecode exposing (Decoder)
 import TsJson.Encode as TsEncode exposing (Encoder)
 
@@ -21,6 +22,7 @@ type FromElm
     = RegisterSounds (List Sound)
     | PlaySound { sound : Sound, looping : Bool }
     | StopSound Sound
+    | ToPIXI PIXIStatement
 
 
 type ToElm
@@ -31,6 +33,52 @@ type alias Flags =
     {}
 
 
+encoderPIXIStatement : Encoder PIXIStatement
+encoderPIXIStatement =
+    TsEncode.union
+        (\init resize start stop render loadImages addToStage value ->
+            case value of
+                Init string ->
+                    init string
+
+                Resize ->
+                    resize ()
+
+                Start ->
+                    start ()
+
+                Stop ->
+                    stop ()
+
+                Render ->
+                    render ()
+
+                LoadImages list ->
+                    loadImages list
+
+                AddToStage list ->
+                    addToStage list
+        )
+        |> TsEncode.variantTagged "init" TsEncode.string
+        |> TsEncode.variantTagged "resize" TsEncode.null
+        |> TsEncode.variantTagged "start" TsEncode.null
+        |> TsEncode.variantTagged "stop" TsEncode.null
+        |> TsEncode.variantTagged "render" TsEncode.null
+        |> TsEncode.variantTagged "loadImage"
+            (TsEncode.tuple TsEncode.string TsEncode.string
+                |> TsEncode.list
+            )
+        |> TsEncode.variantTagged "addToStage"
+            ([ TsEncode.required "id" .id TsEncode.string
+             , TsEncode.required "height" .height (TsEncode.maybe TsEncode.float)
+             , TsEncode.required "width" .width (TsEncode.maybe TsEncode.float)
+             ]
+                |> TsEncode.object
+                |> TsEncode.list
+            )
+        |> TsEncode.buildUnion
+
+
 fromElm : Encoder FromElm
 fromElm =
     let
@@ -38,7 +86,7 @@ fromElm =
             TsEncode.string |> TsEncode.map Gen.Sound.toString
     in
     TsEncode.union
-        (\playSound stopSound registerSounds value ->
+        (\playSound stopSound registerSounds toPIXI value ->
             case value of
                 RegisterSounds list ->
                     registerSounds list
@@ -48,6 +96,9 @@ fromElm =
 
                 StopSound args ->
                     stopSound args
+
+                ToPIXI union ->
+                    toPIXI union
         )
         |> TsEncode.variantTagged "playSound"
             (TsEncode.object
@@ -57,6 +108,7 @@ fromElm =
             )
         |> TsEncode.variantTagged "stopSound" soundEncoder
         |> TsEncode.variantTagged "registerSounds" (TsEncode.list soundEncoder)
+        |> TsEncode.variantTagged "toPIXI" encoderPIXIStatement
         |> TsEncode.buildUnion
 
 
